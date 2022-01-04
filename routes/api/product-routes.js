@@ -83,6 +83,7 @@ router.put('/:id', async (req, res) => {
     await product.update(req.body);
     await product.setTags(req.body.tagIds);
     await product.save();
+    await product.reload();
     res.status(200).json(product)
   } catch (err) {
     res.status(400).json(err);
