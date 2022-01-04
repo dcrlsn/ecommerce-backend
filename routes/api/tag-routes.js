@@ -62,7 +62,7 @@ router.put('/:id', async (req, res) => {
       }
     })
     if (!tags) {
-      res.status(404).json({ message: 'No such category' })
+      res.status(404).json({ message: 'No such tag' })
     } else return res.json(tags);
   } catch (err) {
     console.log(err);
@@ -72,13 +72,13 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const tags = await Category.destroy({
+    const tags = await Tag.destroy({
       where: {
         id: req.params.id
       }
     })
     if (!tags) {
-      res.status(404).json({ message: 'No such category' })
+      res.status(404).json({ message: 'No such tag' })
     } else return res.json(tags);
   }
   catch (err) {
