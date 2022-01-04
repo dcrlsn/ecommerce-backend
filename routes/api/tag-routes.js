@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
     const tags = await Tag.findAll({
       include: {
         model: Product,
-        attributes: ['id', 'product_name', 'stock', 'price']
+        attributes: ['id', 'product_name', 'stock', 'price', 'category_id']
       }
     })
     return res.json(tags);
@@ -53,12 +53,39 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   // update a tag's name by its `id` value
+  try {
+    const tags = await Tag.update(req.body, {
+      where: {
+        id: req.params.id
+      }
+    })
+    if (!tags) {
+      res.status(404).json({ message: 'No such category' })
+    } else return res.json(tags);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+})
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const tags = await Category.destroy({
+      where: {
+        id: req.params.id
+      }
+    })
+    if (!tags) {
+      res.status(404).json({ message: 'No such category' })
+    } else return res.json(tags);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
 });
 
-router.delete('/:id', (req, res) => {
-  // delete on tag by its `id` value
-});
 
 module.exports = router;
